@@ -1,6 +1,6 @@
 # Ultimate Pro Job Tracker
 
-**Live Demo:** [Job Tracker Live Demo](https://varagurupetichenchu.github.io/job-tracker/)
+**Live Demo:** [Job Tracker Live Demo](https://varagurupetichenchu.github.io/Job--Tracker/)
 
 ---
 
