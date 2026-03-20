@@ -1,6 +1,6 @@
 # Ultimate Pro Job Tracker
 
-**Live Demo:** [https://varagurupetichenchu.github.io/job-tracker/](https://varagurupetichenchu.github.io/job-tracker/)
+**Live Demo:** [Job Tracker Live Demo](https://varagurupetichenchu.github.io/job-tracker/)
 
 ---
 
@@ -45,9 +45,9 @@ This project demonstrates frontend skills including **DOM manipulation, event ha
 
 ## Screenshots
 
-![Job Tracker Screenshot 1](https://raw.githubusercontent.com/varagurupetichenchu/job-tracker/main/Screenshot%202026-03-20%20183543.png)
+![Job Tracker Screenshot 1](https://raw.githubusercontent.com/varagurupetichenchu/Job--Tracker/main/Screenshot%202026-03-20%20183543.png)
 
-![Job Tracker Screenshot 2](https://raw.githubusercontent.com/varagurupetichenchu/job-tracker/main/Screenshot%202026-03-20%20183637.png)
+![Job Tracker Screenshot 2](https://raw.githubusercontent.com/varagurupetichenchu/Job--Tracker/main/Screenshot%202026-03-20%20183637.png)
 
 ---
 
@@ -66,4 +66,4 @@ This project demonstrates frontend skills including **DOM manipulation, event ha
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/varagurupetichenchu/job-tracker.git
+git clone https://github.com/varagurupetichenchu/Job--Tracker.git
