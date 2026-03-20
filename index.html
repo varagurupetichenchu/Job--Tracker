@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ultimate Pro Job Tracker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      text-align: center;
+      padding: 20px;
+      transition: background-color 0.3s, color 0.3s;
+      color: #333;
+    }
+
+    body.dark {
+      background-color: #1e1e1e;
+      color: #eee;
+    }
+
+    h1 {
+      color: inherit;
+    }
+
+    input, select {
+      padding: 10px;
+      width: 160px;
+      margin: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    input:focus, select:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0,123,255,0.5);
+    }
+
+    button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      margin: 5px;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #jobList {
+      list-style-type: none;
+      padding: 0;
+      margin-top: 20px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    li {
+      background-color: white;
+      margin: 10px 0;
+      padding: 12px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: opacity 0.3s, transform 0.3s, box-shadow 0.2s;
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+
+    li.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    body.dark li {
+      background-color: #2e2e2e;
+    }
+
+    li:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    body.dark li:nth-child(even) {
+      background-color: #3a3a3a;
+    }
+
+    li:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transform: scale(1.02);
+    }
+
+    li.dragging {
+      border: 2px dashed #007bff;
+      opacity: 0.7;
+    }
+
+    li button {
+      padding: 5px 10px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    li button.delete {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    li button.delete:hover {
+      background-color: #a71d2a;
+    }
+
+    li button.edit {
+      background-color: #ffc107;
+      color: black;
+      margin-right: 5px;
+    }
+
+    li button.edit:hover {
+      background-color: #e0a800;
+    }
+
+    #progress {
+      margin: 10px auto;
+      max-width: 500px;
+      text-align: left;
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      input, select, button {
+        width: 100%;
+        margin: 5px 0;
+      }
+
+      li {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      li span {
+        margin-top: 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<h1>Ultimate Pro Job Tracker</h1>
+
+<input id="job" placeholder="Enter job name">
+<select id="status">
+  <option value="Applied">Applied</option>
+  <option value="Interview">Interview</option>
+  <option value="Offer">Offer</option>
+</select>
+<button onclick="addJob()">Add Job</button>
+<br>
+
+<input id="searchJob" placeholder="Search jobs by name" oninput="displayJobs()">
+<button onclick="exportCSV()">Export to CSV</button>
+<button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+<p>Total Jobs: <span id="jobCount">0</span></p>
+
+<div id="progress">
+  <div>📝 Applied: <span id="appliedCount">0</span></div>
+  <div>🎤 Interview: <span id="interviewCount">0</span></div>
+  <div>🎉 Offer: <span id="offerCount">0</span></div>
+</div>
+
+<label for="filterStatus">Filter by status:</label>
+<select id="filterStatus" onchange="displayJobs()">
+  <option value="All">All</option>
+  <option value="Applied">Applied</option>
+  <option value="Interview">Interview</option>
+  <option value="Offer">Offer</option>
+</select>
+
+<button onclick="sortJobs()">Sort by Status</button>
+
+<ul id="jobList"></ul>
+
+<script>
+let jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+let darkMode = localStorage.getItem("darkMode") === "true";
+if(darkMode) document.body.classList.add("dark");
+
+displayJobs();
+
+function addJob() {
+  let jobInput = document.getElementById("job").value;
+  let statusInput = document.getElementById("status").value;
+  if(jobInput === "") return;
+
+  jobs.push({ name: jobInput, status: statusInput });
+  localStorage.setItem("jobs", JSON.stringify(jobs));
+  displayJobs();
+  document.getElementById("job").value = "";
+}
+
+function displayJobs() {
+  let list = document.getElementById("jobList");
+  list.innerHTML = "";
+
+  let filter = document.getElementById("filterStatus").value;
+  let search = document.getElementById("searchJob").value.toLowerCase();
+
+  let filteredJobs = jobs.filter(job => 
+    (filter === "All" || job.status === filter) &&
+    job.name.toLowerCase().includes(search)
+  );
+
+  document.getElementById("jobCount").textContent = filteredJobs.length;
+
+  filteredJobs.forEach((job, index) => {
+    let li = document.createElement("li");
+    li.textContent = job.name + " - ";
+    li.draggable = true;
+    li.dataset.index = index;
+
+    li.addEventListener('dragstart', function() {
+      li.classList.add('dragging');
+      dragStartIndex = +li.dataset.index;
+    });
+    li.addEventListener('dragend', function() {
+      li.classList.remove('dragging');
+    });
+    li.addEventListener('dragover', dragOver);
+    li.addEventListener('drop', drop);
+
+    // Status with icons
+    let statusSpan = document.createElement("span");
+    let icon = "";
+    if(job.status === "Applied") { icon = "📝"; statusSpan.style.color = "blue"; }
+    if(job.status === "Interview") { icon = "🎤"; statusSpan.style.color = "orange"; }
+    if(job.status === "Offer") { icon = "🎉"; statusSpan.style.color = "green"; }
+    statusSpan.textContent = `${icon} ${job.status}`;
+    statusSpan.style.fontWeight = "bold";
+    li.appendChild(statusSpan);
+
+    // Edit button
+    let editBtn = document.createElement("button");
+    editBtn.textContent = "Edit";
+    editBtn.className = "edit";
+    editBtn.onclick = function() {
+      let newName = prompt("Edit job name:", job.name);
+      if(newName !== null && newName.trim() !== "") job.name = newName.trim();
+      let newStatus = prompt("Edit job status (Applied/Interview/Offer):", job.status);
+      if(["Applied","Interview","Offer"].includes(newStatus)) job.status = newStatus;
+      localStorage.setItem("jobs", JSON.stringify(jobs));
+      displayJobs();
+    }
+    li.appendChild(editBtn);
+
+    // Delete button with confirmation
+    let delBtn = document.createElement("button");
+    delBtn.textContent = "Delete";
+    delBtn.className = "delete";
+    delBtn.onclick = function() {
+      if(confirm(`Are you sure you want to delete "${job.name}"?`)) {
+        let jobIndex = jobs.indexOf(job);
+        jobs.splice(jobIndex, 1);
+        localStorage.setItem("jobs", JSON.stringify(jobs));
+        displayJobs();
+      }
+    }
+    li.appendChild(delBtn);
+
+    list.appendChild(li);
+    setTimeout(() => li.classList.add("show"), 10); // fade-in animation
+  });
+
+  // Update progress counts
+  document.getElementById("appliedCount").textContent = jobs.filter(j => j.status === "Applied").length;
+  document.getElementById("interviewCount").textContent = jobs.filter(j => j.status === "Interview").length;
+  document.getElementById("offerCount").textContent = jobs.filter(j => j.status === "Offer").length;
+}
+
+let dragStartIndex;
+function dragOver(e) { e.preventDefault(); }
+function drop() {
+  const dragEndIndex = +this.dataset.index;
+  const temp = jobs[dragStartIndex];
+  jobs[dragStartIndex] = jobs[dragEndIndex];
+  jobs[dragEndIndex] = temp;
+  localStorage.setItem("jobs", JSON.stringify(jobs));
+  displayJobs();
+}
+
+function sortJobs() {
+  const order = { "Applied": 1, "Interview": 2, "Offer": 3 };
+  jobs.sort((a, b) => order[a.status] - order[b.status]);
+  localStorage.setItem("jobs", JSON.stringify(jobs));
+  displayJobs();
+}
+
+function exportCSV() {
+  let csvContent = "data:text/csv;charset=utf-8,Job Name,Status\n";
+  jobs.forEach(job => { csvContent += `${job.name},${job.status}\n`; });
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", "jobs.csv");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+function toggleDarkMode() {
+  document.body.classList.toggle("dark");
+  darkMode = document.body.classList.contains("dark");
+  localStorage.setItem("darkMode", darkMode);
+}
+</script>
+
+</body>
+</html>
+
