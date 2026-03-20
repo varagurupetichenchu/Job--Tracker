@@ -7,9 +7,9 @@
 ## Description
 
 The **Ultimate Pro Job Tracker** is a fully interactive frontend project built using **HTML, CSS, and JavaScript**.  
-It helps users track their job applications efficiently, providing a visually appealing and professional interface.  
+It helps users track their job applications efficiently with a professional, interactive interface.  
 
-This project is ideal for showcasing frontend skills, including **DOM manipulation, event handling, localStorage, animations, and responsive design**.  
+This project demonstrates frontend skills including **DOM manipulation, event handling, localStorage persistence, animations, and responsive design**.
 
 ---
 
@@ -17,21 +17,21 @@ This project is ideal for showcasing frontend skills, including **DOM manipulati
 
 - **Add, Edit, Delete Jobs** – Full CRUD functionality.  
 - **Filter Jobs by Status** – Applied / Interview / Offer.  
-- **Sort Jobs by Status** – Quickly organize applications.  
+- **Sort Jobs by Status** – Quickly organize job applications.  
 - **Drag-and-Drop Reordering** – Easily rearrange job entries.  
 - **Search Jobs by Name** – Instant filtering as you type.  
 - **Export Jobs to CSV** – Download all jobs in spreadsheet-friendly format.  
-- **Dark Mode Toggle** – Modern UI option.  
-- **Total Jobs Counter** – Displays number of jobs in the list.  
+- **Dark Mode Toggle** – Modern user interface.  
+- **Total Jobs Counter** – Displays the total number of jobs.  
 - **Status Icons & Color Coding**:  
   - 📝 Applied (blue)  
   - 🎤 Interview (orange)  
   - 🎉 Offer (green)  
 - **Progress Tracker** – Shows counts of each status category.  
 - **Animations** – Smooth transitions for adding/removing jobs.  
-- **Persistent Storage** – All data saved in the browser using localStorage.  
+- **Persistent Storage** – All data is saved in the browser using localStorage.  
 - **Delete Confirmation** – Prevents accidental deletions.  
-- **Responsive Design** – Works on mobile and desktop.  
+- **Responsive Design** – Works on both desktop and mobile devices.  
 
 ---
 
@@ -43,23 +43,22 @@ This project is ideal for showcasing frontend skills, including **DOM manipulati
 
 ---
 
-## Screenshot
+## Screenshots
 
-![Job Tracker Screenshot](https://raw.githubusercontent.com/varagurupetichenchu/job-tracker/main/screenshot.png)
+![Job Tracker Screenshot 1](https://raw.githubusercontent.com/varagurupetichenchu/job-tracker/main/Screenshot%202026-03-20%20183543.png)
 
-> Replace the above link with the path to your actual screenshot in the repository.
+![Job Tracker Screenshot 2](https://raw.githubusercontent.com/varagurupetichenchu/job-tracker/main/Screenshot%202026-03-20%20183637.png)
 
 ---
 
 ## Usage
 
-1. Open the **Live Demo** link in any web browser.  
-2. Enter the **job name** and select a **status**, then click **Add Job**.  
+1. Open the **Live Demo** link in a browser.  
+2. Enter a **job name** and select a **status**, then click **Add Job**.  
 3. Edit or delete jobs using the **Edit** and **Delete** buttons.  
 4. Filter, search, or sort jobs as needed.  
-5. Use **Dark Mode** for a modern interface.  
-6. Export all jobs to **CSV** if needed.  
-7. All data is automatically saved in the browser, so it persists across sessions.  
+5. Toggle **Dark Mode** or export jobs to **CSV**.  
+6. All jobs data is automatically saved in the browser using **localStorage**.  
 
 ---
 
